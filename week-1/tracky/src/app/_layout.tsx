@@ -1,9 +1,10 @@
 import AuthProvider from "@functional/auth/AuthProvider";
 import useAuth from "@functional/auth/useAuth";
 import { DefaultScreenOptions, Fonts, Theme } from "@style/theme";
-import { SplashScreen, Stack } from "expo-router";
+import { Stack } from "expo-router";
 import { useFonts } from "expo-font";
 import { useEffect } from "react";
+import * as SplashScreen from "expo-splash-screen";
 import { ThemeProvider } from "@react-navigation/native";
 
 // Prevent the splash screen from auto-hiding before asset loading is complete.
@@ -35,11 +36,7 @@ export default function RootLayout() {
 }
 
 const AuthGate = () => {
-  const { isInitialized, isLoggedIn } = useAuth();
-
-  if (!isInitialized) {
-    return null;
-  }
+  const { isLoggedIn } = useAuth();
 
   return (
     <ThemeProvider value={Theme}>
