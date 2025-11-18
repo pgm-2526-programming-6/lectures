@@ -1,15 +1,39 @@
-import { Pressable, StyleProp, StyleSheet, View, ViewStyle } from "react-native";
 import ThemedText from "@design/Typography/ThemedText";
 import { Colors, FontSizes, Spacing } from "@style/theme";
+import { Href, Link } from "expo-router";
+import { Pressable, StyleProp, StyleSheet, View, ViewStyle } from "react-native";
 
-type Props = {
-  onPress: () => void;
+type BaseProps = {
   children: string;
   style?: StyleProp<ViewStyle>;
   disabled?: boolean;
 };
 
-const Button = ({ onPress, children, style, disabled = false }: Props) => {
+type HrefProps = BaseProps & {
+  href: Href;
+  onPress?: never;
+};
+
+type PressProps = BaseProps & {
+  onPress: () => void;
+  href?: never;
+};
+
+const Button = ({ onPress, href, children, style, disabled = false }: HrefProps | PressProps) => {
+  const content = (
+    <View style={[styles.background, disabled && styles.backgroundDisabled]}>
+      <ThemedText style={[styles.text, disabled && styles.textDisabled]}>{children}</ThemedText>
+    </View>
+  );
+
+  if (href) {
+    return (
+      <Link href={href} disabled={disabled}>
+        {content}
+      </Link>
+    );
+  }
+
   return (
     <Pressable
       disabled={disabled}
@@ -18,9 +42,7 @@ const Button = ({ onPress, children, style, disabled = false }: Props) => {
       style={({ pressed }) => [style, pressed && styles.pressed]}
       android_ripple={{ color: Colors.ripple, foreground: true }}
     >
-      <View style={[styles.background, disabled && styles.backgroundDisabled]}>
-        <ThemedText style={[styles.text, disabled && styles.textDisabled]}>{children}</ThemedText>
-      </View>
+      {content}
     </Pressable>
   );
 };
@@ -50,3 +72,4 @@ const styles = StyleSheet.create({
 });
 
 export default Button;
+v;
