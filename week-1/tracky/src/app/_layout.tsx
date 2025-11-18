@@ -41,7 +41,13 @@ const AuthGate = () => {
   return (
     <ThemeProvider value={Theme}>
       <Stack screenOptions={{ ...DefaultScreenOptions, headerShown: false }}>
-        {isLoggedIn ? <Stack.Screen name="(app)" /> : <Stack.Screen name="(auth)" />}
+        <Stack.Protected guard={!isLoggedIn}>
+          <Stack.Screen name="(auth)" />
+        </Stack.Protected>
+
+        <Stack.Protected guard={isLoggedIn}>
+          <Stack.Screen name="(app)" />
+        </Stack.Protected>
       </Stack>
     </ThemeProvider>
   );
