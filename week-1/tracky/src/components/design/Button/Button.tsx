@@ -1,22 +1,23 @@
 import ThemedText from "@design/Typography/ThemedText";
 import { Colors, FontSizes, Spacing } from "@style/theme";
 import { Href, Link } from "expo-router";
-import { Pressable, StyleProp, StyleSheet, View, ViewStyle } from "react-native";
+import { Pressable, StyleProp, StyleSheet, TextStyle, View, ViewStyle } from "react-native";
 
 type BaseProps = {
   children: string;
-  style?: StyleProp<ViewStyle>;
   disabled?: boolean;
 };
 
 type HrefProps = BaseProps & {
   href: Href;
   onPress?: never;
+  style?: StyleProp<TextStyle>;
 };
 
 type PressProps = BaseProps & {
   onPress: () => void;
   href?: never;
+  style?: StyleProp<ViewStyle>;
 };
 
 const Button = ({ onPress, href, children, style, disabled = false }: HrefProps | PressProps) => {
@@ -28,7 +29,7 @@ const Button = ({ onPress, href, children, style, disabled = false }: HrefProps 
 
   if (href) {
     return (
-      <Link href={href} disabled={disabled}>
+      <Link href={href} disabled={disabled} style={style}>
         {content}
       </Link>
     );

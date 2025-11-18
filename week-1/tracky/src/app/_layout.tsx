@@ -35,7 +35,11 @@ export default function RootLayout() {
 }
 
 const AuthGate = () => {
-  const { isLoggedIn } = useAuth();
+  const { isInitialized, isLoggedIn } = useAuth();
+
+  if (!isInitialized) {
+    return null;
+  }
 
   return (
     <ThemeProvider value={Theme}>

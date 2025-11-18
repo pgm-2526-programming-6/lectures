@@ -15,6 +15,7 @@ const AuthProvider = ({ children }: Props) => {
   return (
     <AuthContext.Provider
       value={{
+        isInitialized: true, // voorbereiding voor week 2
         isLoggedIn: isLoggedIn,
         login: handleLogin,
       }}
