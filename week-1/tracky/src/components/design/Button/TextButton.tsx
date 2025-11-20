@@ -1,16 +1,37 @@
-import { Pressable, StyleProp, StyleSheet, ViewStyle } from "react-native";
 import ThemedText from "@design/Typography/ThemedText";
 import { Colors, Fonts, FontSizes, Spacing } from "@style/theme";
+import { Href, Link } from "expo-router";
+import { Pressable, StyleProp, StyleSheet, TextStyle, ViewStyle } from "react-native";
 
-type Props = {
-  onPress: () => void;
+type BaseProps = {
   children: string;
   color?: string;
-  style?: StyleProp<ViewStyle>;
   disabled?: boolean;
 };
 
-const TextButton = ({ onPress, children, color, style, disabled = false }: Props) => {
+type HrefProps = BaseProps & {
+  href: Href;
+  onPress?: never;
+  style?: StyleProp<TextStyle>;
+};
+
+type PressProps = BaseProps & {
+  onPress: () => void;
+  href?: never;
+  style?: StyleProp<ViewStyle>;
+};
+
+const TextButton = ({ onPress, href, children, color, style, disabled = false }: PressProps | HrefProps) => {
+  const content = <ThemedText style={[styles.title, color && { color }]}>{children}</ThemedText>;
+
+  if (href) {
+    return (
+      <Link href={href} disabled={disabled} style={style}>
+        {content}
+      </Link>
+    );
+  }
+
   return (
     <Pressable
       disabled={disabled}
@@ -19,7 +40,7 @@ const TextButton = ({ onPress, children, color, style, disabled = false }: Props
       style={style}
       android_ripple={{ color: Colors.ripple }}
     >
-      <ThemedText style={[styles.title, color && { color }]}>{children}</ThemedText>
+      {content}
     </Pressable>
   );
 };
