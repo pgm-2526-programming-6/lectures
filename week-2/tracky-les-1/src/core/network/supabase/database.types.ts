@@ -32,6 +32,35 @@ export type Database = {
         }
         Relationships: []
       }
+      projects: {
+        Row: {
+          client_id: number
+          created_at: string
+          id: number
+          name: string
+        }
+        Insert: {
+          client_id: number
+          created_at?: string
+          id?: number
+          name: string
+        }
+        Update: {
+          client_id?: number
+          created_at?: string
+          id?: number
+          name?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "projects_client_id_fkey"
+            columns: ["client_id"]
+            isOneToOne: false
+            referencedRelation: "clients"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
     }
     Views: {
       [_ in never]: never
