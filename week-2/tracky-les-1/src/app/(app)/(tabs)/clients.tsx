@@ -12,8 +12,6 @@ const ClientsLayout = () => {
   const [clients, setClients] = useState<Client[] | null>();
   const [error, setError] = useState<string | null>(null);
 
-  console.log(clients);
-
   useEffect(() => {
     getClients()
       .then((clients) => {

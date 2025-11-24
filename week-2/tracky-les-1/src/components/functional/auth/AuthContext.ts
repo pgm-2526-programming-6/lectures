@@ -1,13 +1,17 @@
+import { Auth, LoginBody } from "@core/modules/auth/types.auth";
 import { createContext } from "react";
 
-const AuthContext = createContext<{
+type AuthContextType = {
   isInitialized: boolean;
   isLoggedIn: boolean;
-  login: () => Promise<void>;
-}>({
+  auth: Auth | null;
+  login: (data: LoginBody) => Promise<Auth | null>;
+};
+
+const AuthContext = createContext<AuthContextType>({
   isInitialized: false,
   isLoggedIn: false,
-  login: () => Promise.resolve(),
+  auth: null,
+  login: (data: LoginBody) => Promise.resolve(null),
 });
-
 export default AuthContext;

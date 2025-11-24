@@ -10,7 +10,10 @@ const Login = () => {
   const { login } = useAuth();
 
   const handleLogin = () => {
-    login().then(() => router.replace("/(app)/(tabs)/home"));
+    login({
+      email: "michael.vanderpoorten@arteveldehs.be",
+      password: "test1234",
+    }).then(() => router.replace("/(app)/(tabs)/home"));
   };
 
   return (
