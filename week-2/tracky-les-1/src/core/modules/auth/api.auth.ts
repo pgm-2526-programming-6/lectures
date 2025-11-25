@@ -1,9 +1,9 @@
 import { API } from "@core/network/supabase/api";
 import { Auth, CreateUserBody, LoginBody } from "./types.auth";
 
-export const registerUser = (user: CreateUserBody) => {
+export const registerUser = async (user: CreateUserBody) => {
   const { email, password, ...rest } = user;
-  return API.auth.signUp({
+  const { data, error } = await API.auth.signUp({
     email,
     password,
     options: {
@@ -12,6 +12,12 @@ export const registerUser = (user: CreateUserBody) => {
       },
     },
   });
+
+  if (error) {
+    throw error;
+  }
+
+  return data;
 };
 
 export const getCurrentAuth = async (): Promise<Auth | null> => {
