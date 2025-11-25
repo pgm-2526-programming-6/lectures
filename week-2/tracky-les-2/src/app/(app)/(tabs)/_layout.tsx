@@ -1,8 +1,11 @@
-import { Tabs } from "expo-router";
 import Icons from "@expo/vector-icons/Feather";
+import useUser from "@functional/auth/useUser";
 import { DefaultScreenOptions } from "@style/theme";
+import { Tabs } from "expo-router";
 
 const TabLayout = () => {
+  const user = useUser();
+
   return (
     <Tabs screenOptions={DefaultScreenOptions}>
       <Tabs.Screen
@@ -22,6 +25,7 @@ const TabLayout = () => {
       <Tabs.Screen
         name="clients"
         options={{
+          ...(user.role === "admin" ? {} : { href: null }),
           title: "Clients",
           tabBarIcon: ({ color, size }) => <Icons size={size} name="briefcase" color={color} />,
         }}
