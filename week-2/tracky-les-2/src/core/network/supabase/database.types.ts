@@ -19,18 +19,29 @@ export type Database = {
           created_at: string
           id: number
           name: string
+          owner_id: string
         }
         Insert: {
           created_at?: string
           id?: number
           name: string
+          owner_id?: string
         }
         Update: {
           created_at?: string
           id?: number
           name?: string
+          owner_id?: string
         }
-        Relationships: []
+        Relationships: [
+          {
+            foreignKeyName: "clients_owner_id_fkey"
+            columns: ["owner_id"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+        ]
       }
       profiles: {
         Row: {
@@ -59,18 +70,21 @@ export type Database = {
           created_at: string
           id: number
           name: string
+          owner_id: string
         }
         Insert: {
           client_id: number
           created_at?: string
           id?: number
           name: string
+          owner_id?: string
         }
         Update: {
           client_id?: number
           created_at?: string
           id?: number
           name?: string
+          owner_id?: string
         }
         Relationships: [
           {
@@ -78,6 +92,13 @@ export type Database = {
             columns: ["client_id"]
             isOneToOne: false
             referencedRelation: "clients"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "projects_owner_id_fkey"
+            columns: ["owner_id"]
+            isOneToOne: false
+            referencedRelation: "profiles"
             referencedColumns: ["id"]
           },
         ]

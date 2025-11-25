@@ -5,22 +5,18 @@ import ListItem from "@design/List/ListItem";
 import LoadingIndicator from "@design/Loading/LoadingIndicator";
 import DefaultView from "@design/View/DefaultView";
 import EmptyView from "@design/View/EmptyView";
-import { useEffect, useState } from "react";
+import { useQuery } from "@tanstack/react-query";
 import { FlatList } from "react-native";
 
 const ClientsLayout = () => {
-  const [clients, setClients] = useState<Client[] | null>();
-  const [error, setError] = useState<string | null>(null);
-
-  useEffect(() => {
-    getClients()
-      .then((clients) => {
-        setClients(clients);
-      })
-      .catch((error) => {
-        setError(error);
-      });
-  }, []);
+  const {
+    data: clients,
+    error,
+    isLoading,
+  } = useQuery<Client[]>({
+    queryKey: ["clients"],
+    queryFn: getClients,
+  });
 
   if (error) {
     return (
@@ -30,7 +26,7 @@ const ClientsLayout = () => {
     );
   }
 
-  if (!clients) {
+  if (isLoading || !clients) {
     return (
       <DefaultView>
         <LoadingIndicator />
