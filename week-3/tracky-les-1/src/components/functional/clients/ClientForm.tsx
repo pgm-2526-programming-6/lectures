@@ -6,7 +6,7 @@ import DefaultView from "@design/View/DefaultView";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { Spacing } from "@style/theme";
 import { useMutation } from "@tanstack/react-query";
-import { Controller, FieldValues, useForm } from "react-hook-form";
+import { Controller, useForm } from "react-hook-form";
 import { ScrollView, StyleSheet } from "react-native";
 import * as yup from "yup";
 
@@ -38,8 +38,8 @@ const ClientForm = ({ updateMethod, onSuccess }: Props) => {
     },
   });
 
-  const handleOnSubmit = (data: FieldValues) => {
-    mutate(data as CreateClientBody);
+  const handleOnSubmit = (data: CreateClientBody) => {
+    mutate(data);
   };
 
   return (
@@ -52,7 +52,6 @@ const ClientForm = ({ updateMethod, onSuccess }: Props) => {
           name="name"
           render={({ field: { onChange, value, onBlur } }) => (
             <InputField
-              control={control}
               label="Client name"
               name="name"
               placeholder="client name"
