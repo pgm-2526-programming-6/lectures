@@ -1,5 +1,5 @@
 import { createClient } from "@core/modules/clients/api.clients";
-import ClientForm from "@functional/clients/ClientForm";
+import ClientForm from "@functional/Clients/ClientForm";
 import { useQueryClient } from "@tanstack/react-query";
 import { Stack, useRouter } from "expo-router";
 

@@ -1,5 +1,5 @@
 import { API } from "@core/network/supabase/api";
-import { ProjectWithClient } from "./types.projects";
+import { CreateProjectBody, Project, ProjectWithClient } from "./types.projects";
 
 export const getProjects = async (): Promise<ProjectWithClient[]> => {
   const { data } = await API.from("projects").select("*, client:clients(*)").order("name").throwOnError();
@@ -12,5 +12,11 @@ export const getProjectById = async (uid: number): Promise<ProjectWithClient | n
     .eq("id", uid)
     .throwOnError()
     .single();
+  return data;
+};
+
+export const createProject = async (body: CreateProjectBody): Promise<Project | null> => {
+  // select en single -> aangemaakte client ook terug geven
+  const { data } = await API.from("projects").insert(body).throwOnError().select().single();
   return data;
 };

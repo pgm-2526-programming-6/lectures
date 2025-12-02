@@ -1,14 +1,18 @@
 import { getProjects } from "@core/modules/projects/api.projects";
 import { ProjectWithClient } from "@core/modules/projects/types.projects";
 import ErrorMessage from "@design/Alert/ErrorMessage";
+import HeaderButtonLink from "@design/Button/HeaderButtonLink";
 import ListItem from "@design/List/ListItem";
 import LoadingIndicator from "@design/Loading/LoadingIndicator";
 import DefaultView from "@design/View/DefaultView";
 import EmptyView from "@design/View/EmptyView";
 import { useQuery } from "@tanstack/react-query";
+import { useNavigation } from "expo-router";
+import { useEffect } from "react";
 import { FlatList } from "react-native";
 
 const ProjectsLayout = () => {
+  const navigation = useNavigation();
   const {
     data: projects,
     error,
@@ -17,6 +21,12 @@ const ProjectsLayout = () => {
     queryKey: ["projects"],
     queryFn: getProjects,
   });
+
+  useEffect(() => {
+    navigation.setOptions({
+      headerRight: () => <HeaderButtonLink href="/projects/create" title="Add project" icon="plus" />,
+    });
+  }, [navigation]);
 
   if (error) {
     return (
